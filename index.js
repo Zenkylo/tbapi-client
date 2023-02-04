@@ -22,10 +22,16 @@ const axios_1 = __importDefault(require("axios"));
  */
 class BlogAPI {
     constructor(apiKey, blogId) {
+        // private baseUrl: string = 'http://theblogapi.com/api'
+        this.baseUrl = 'http://localhost:3333/api';
+        if (typeof apiKey !== 'string')
+            throw new Error('API key must be a string.');
+        if (typeof blogId !== 'string')
+            throw new Error('Blog ID must be a string.');
         this.apiKey = apiKey;
         this.blogId = blogId;
         this._axios = axios_1.default.create({
-            baseURL: `http://theblogapi.com/blogs/${this.blogId}`,
+            baseURL: `${this.baseUrl}/blogs/${this.blogId}`,
             timeout: 1000,
             headers: { 'Authorization': `Bearer ${this.apiKey}` }
         });
@@ -34,9 +40,9 @@ class BlogAPI {
      * Get the blog's posts.
      * @returns {Promise} - A promise that resolves with the blog's posts.
      */
-    getPosts(params) {
+    getBlogPosts(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this._axios.get('/posts', { params });
+            return this._axios('/posts', params);
         });
     }
     /**
@@ -45,12 +51,12 @@ class BlogAPI {
      * @returns {Promise} - A promise that resolves with the blog post.
      * @throws {Error} - If the post ID is not a string.
      */
-    getPost(postId) {
+    getBlogPost(postId) {
         return __awaiter(this, void 0, void 0, function* () {
             if (typeof postId !== 'string') {
                 throw new Error('Post ID must be a string.');
             }
-            return this._axios.get(`/posts/${postId}`);
+            return this._axios(`/posts/${postId}`);
         });
     }
 }
