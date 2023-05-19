@@ -1,10 +1,11 @@
 import axios from "axios";
 export default class {
-  constructor(apiKey, blogId) {
+  constructor(apiBase, apiKey, blogId) {
+    this.apiBase = apiBase;
     this.apiKey = apiKey;
     this.blogId = blogId;
     this._axios = axios.create({
-      baseURL: `http://localhost:3333`,
+      baseURL: this.apiBase,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${this.apiKey}`,
